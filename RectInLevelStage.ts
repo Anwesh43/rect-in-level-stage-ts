@@ -111,7 +111,7 @@ class RILNode {
             const x = -size + j * size
             const sf = 1 - 2 * j
             const sc = Math.min(0.5, Math.max(0, scale - 0.5 * j)) * 2
-            const y = (size/4 + h/2) * (1 - sc) * sf * -1
+            const y = (size/2 + h/2) * (1 - sc) * sf * -1
             context.fillRect(x,y, size, size/2)
         }
         context.restore()
