@@ -4,6 +4,8 @@ const nodes : number = 5
 class RectInLevelStage {
     canvas : HTMLCanvasElement = document.createElement('canvas')
     context : CanvasRenderingContext2D
+    ril : RectInLevel = new RectInLevel()
+    animator : Animator = new Animator()
 
     initCanvas() {
         this.canvas.width = w
@@ -15,11 +17,20 @@ class RectInLevelStage {
     render() {
         this.context.fillStyle = '#212121'
         this.context.fillRect(0, 0, w, h)
+        this.ril.draw(this.context)
     }
 
     handleTap() {
         this.canvas.onmousedown = () => {
-
+            this.ril.startUpdating(() => {
+                this.animator.start(() => {
+                    this.render()
+                    this.ril.update(() => {
+                        this.animator.stop()
+                        this.render()
+                    })
+                })
+            })
         }
     }
 
