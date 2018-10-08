@@ -104,6 +104,9 @@ class RILNode {
             context.fillRect(x,y, size, size/2)
         }
         context.restore()
+        if (this.prev) {
+            this.prev.draw(context)
+        }
     }
 
     update(cb : Function) {
@@ -124,5 +127,27 @@ class RILNode {
         }
         cb()
         return this
+    }
+}
+
+class RectInLevel {
+    curr : RILNode = new RILNode(0)
+    dir : number = 1
+
+    draw(context : CanvasRenderingContext2D) {
+        this.curr.draw(context)
+    }
+
+    update(cb : Function) {
+        this.curr.update(() => {
+            this.curr = this.curr.getNext(this.dir, () => {
+                this.dir *= -1
+            })
+            cb()
+        })
+    }
+
+    startUpdating(cb : Function) {
+        this.curr.startUpdating(cb)
     }
 }
