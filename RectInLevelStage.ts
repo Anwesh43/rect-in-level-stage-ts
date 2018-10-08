@@ -90,7 +90,20 @@ class RILNode {
     }
 
     draw(context : CanvasRenderingContext2D) {
-
+        const gap : number = w / (nodes + 1)
+        const size : number = gap/3
+        const scale : number = this.state.scale
+        context.fillStyle = '#283593'
+        context.save()
+        context.translate(gap + this.i * gap, h/2)
+        for (var j = 0; j < 2; j++) {
+            const x = -size + j * size
+            const sf = 1 - 2 * j
+            const sc = Math.min(0.5, Math.max(0, scale - 0.5 * j)) * 2
+            const y = (size/4 + h/2) * (1 - sc) * sf * -1
+            context.fillRect(x,y, size, size/2)
+        }
+        context.restore()
     }
 
     update(cb : Function) {
